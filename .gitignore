@@ -1,0 +1,5 @@
+# Ignore all files in the raw_data directory
+raw_data/*
+
+# Ignore all files in venv
+venv/*
