@@ -1,0 +1,49 @@
+{
+  "indices": {
+    "MAG7": {
+      "name": "MAG7",
+      "display_name": "Magnificent 7",
+      "holdings_folder": "mag7_holdings",
+      "holdings_file_pattern": "MAG7_Holdings_*.csv",
+      "holdings_consolidated_file": "MAG7_holdings_consolidated.parquet",
+      "weighted_betas_file": "MAG7_weekly_factor_betas.parquet",
+      "csv_export_file": "MAG7_weekly_factor_betas.csv"
+    },
+    "NASDAQ": {
+      "name": "NASDAQ",
+      "display_name": "NASDAQ Composite",
+      "holdings_folder": "NASDAQ_holdings",
+      "holdings_file_pattern": "NASDAQ_Holdings_*.csv",
+      "holdings_consolidated_file": "NASDAQ_holdings_consolidated.parquet",
+      "weighted_betas_file": "NASDAQ_weekly_factor_betas.parquet",
+      "csv_export_file": "NASDAQ_weekly_factor_betas.csv"
+    },
+    "DOW": {
+      "name": "DOW",
+      "display_name": "Dow Jones Industrial Average",
+      "holdings_folder": "DOW_holdings",
+      "holdings_file_pattern": "DOW_Holdings_*.csv",
+      "holdings_consolidated_file": "DOW_holdings_consolidated.parquet",
+      "weighted_betas_file": "DOW_weekly_factor_betas.parquet",
+      "csv_export_file": "DOW_weekly_factor_betas.csv"
+    },
+    "RUSSELL2000": {
+      "name": "RUSSELL2000",
+      "display_name": "Russell 2000",
+      "holdings_folder": "RUSSELL2000_holdings",
+      "holdings_file_pattern": "RUSSELL2000_Holdings_*.csv",
+      "holdings_consolidated_file": "RUSSELL2000_holdings_consolidated.parquet",
+      "weighted_betas_file": "RUSSELL2000_weekly_factor_betas.parquet",
+      "csv_export_file": "RUSSELL2000_weekly_factor_betas.csv"
+    },
+    "MAG7": {
+      "name": "MAG7",
+      "display_name": "Magnificent 7",
+      "holdings_folder": "mag7_holdings",
+      "holdings_file_pattern": "mag7_holdings_*.csv",
+      "holdings_consolidated_file": "MAG7_holdings_consolidated.parquet",
+      "weighted_betas_file": "MAG7_weekly_factor_betas.parquet",
+      "csv_export_file": "MAG7_weekly_factor_betas.csv"
+    }
+  }
+}

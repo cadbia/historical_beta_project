@@ -1,5 +1,11 @@
 # Ignore all files in the raw_data directory
 raw_data/*
 
+# Ignore all files in the data_warehouse directory
+data_warehouse/*
+
+# Ignore all files in the data_marts directory
+data_marts/*
+
 # Ignore all files in venv
 venv/*
