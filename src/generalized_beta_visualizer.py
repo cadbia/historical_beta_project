@@ -26,6 +26,25 @@ from config import get_config, set_index
 plt.style.use('seaborn-v0_8')
 sns.set_palette("husl")
 
+FACTOR_GROUPS = {
+    '1-7 value': list(map(str, range(1, 8))),
+    '8 growth': ['8'],
+    '9-23 volatility': list(map(str, range(9, 24))),
+    '24-28 growth': list(map(str, range(24, 29))),
+    '29 value': ['29'],
+    '30-31 commodities': ['30', '31'],
+    '32-33 fixed income': ['32', '33'],
+    '34-41 fixed income': list(map(str, range(34, 42))),
+    '42 volatility': ['42'],
+    '43-53 index': list(map(str, range(43, 54))),
+    '54-56 fixed income': ['54', '55', '56'],
+    '57-63 macro': list(map(str, range(57, 64))),
+    '64-68 value': list(map(str, range(64, 69))),
+    '70-72 volatility': ['70', '71', '72'],
+    '73-78 commodities': list(map(str, range(73, 79))),
+    '79-88 sector': list(map(str, range(79, 89)))
+}
+
 class GeneralizedBetaVisualizer:
     """
     A generalized class for visualizing factor beta trends for any index and individual stocks
@@ -84,17 +103,10 @@ class GeneralizedBetaVisualizer:
         except Exception as e:
             print(f"Unexpected error loading data: {e}")
     
-    def plot_factor_evolution(self, factors=None, start_date=None, end_date=None, 
-                            figsize=(15, 10), interactive=True):
+    def plot_factor_evolution(self, start_date=None, end_date=None, figsize=(15, 10), interactive=True):
         """
-        Plot the evolution of factor betas over time for the index
-        
-        Args:
-            factors: List of factor numbers to plot (default: first 10)
-            start_date: Start date for plotting (default: all data)
-            end_date: End date for plotting (default: all data)
-            figsize: Figure size for matplotlib plots
-            interactive: Whether to create interactive plotly plots
+        Plot the evolution of grouped factor betas over time for the index
+        Each line is the average of a factor group.
         """
         if self.index_data is None or self.factor_cols is None:
             print("No index data loaded")
@@ -107,100 +119,23 @@ class GeneralizedBetaVisualizer:
         if end_date:
             data = data[data['Date'] <= pd.to_datetime(end_date)]
         
-        # Select factors to plot
-        if factors is None:
-            factors = self.factor_cols[:10]  # First 10 factors
-        else:
-            factors = [str(f) for f in factors]  # Ensure string format
+        # Calculate group averages
+        group_averages = {}
+        for group_name, factors in FACTOR_GROUPS.items():
+            available_factors = [f for f in factors if f in self.factor_cols]
+            if available_factors:
+                group_averages[group_name] = data[available_factors].mean(axis=1)
         
-        # Filter to available factors
-        factors = [f for f in factors if f in self.factor_cols]
-        
-        if interactive:
-            self._plot_interactive_factors(data, factors)
-        else:
-            self._plot_matplotlib_factors(data, factors, figsize)
-    
-    def _plot_interactive_factors(self, data, factors):
-        """Create interactive plotly visualization"""
-        # Create subplots
-        rows = (len(factors) + 1) // 2
-        fig = make_subplots(
-            rows=rows, cols=2,
-            subplot_titles=[f'Factor {f}' for f in factors],
-            vertical_spacing=0.08,
-            horizontal_spacing=0.1
-        )
-        
-        colors = px.colors.qualitative.Set1[:len(factors)]
-        
-        for i, factor in enumerate(factors):
-            row = (i // 2) + 1
-            col = (i % 2) + 1
-            
-            # Skip if factor not in data
-            if factor not in data.columns:
-                continue
-            
-            fig.add_trace(
-                go.Scatter(
-                    x=data['Date'],
-                    y=data[factor],
-                    mode='lines',
-                    name=f'Factor {factor}',
-                    line=dict(color=colors[i % len(colors)], width=2),
-                    showlegend=False
-                ),
-                row=row, col=col
-            )
-        
-        fig.update_layout(
-            title=f'{self.index_config.display_name} Factor Beta Evolution',
-            height=300 * rows,
-            showlegend=False
-        )
-        
-        fig.update_xaxes(title_text="Date")
-        fig.update_yaxes(title_text="Beta Value")
-        
-        fig.show()
-    
-    def _plot_matplotlib_factors(self, data, factors, figsize):
-        """Create matplotlib visualization"""
-        rows = (len(factors) + 1) // 2
-        fig, axes = plt.subplots(rows, 2, figsize=figsize)
-        
-        if rows == 1:
-            axes = [axes]
-        
-        for i, factor in enumerate(factors):
-            row = i // 2
-            col = i % 2
-            
-            if factor not in data.columns:
-                continue
-            
-            ax = axes[row][col] if rows > 1 else axes[col]
-            
-            ax.plot(data['Date'], data[factor], linewidth=2)
-            ax.set_title(f'Factor {factor}')
-            ax.set_xlabel('Date')
-            ax.set_ylabel('Beta Value')
-            ax.grid(True, alpha=0.3)
-            
-            # Format x-axis
-            ax.tick_params(axis='x', rotation=45)
-        
-        # Hide empty subplots
-        for i in range(len(factors), rows * 2):
-            row = i // 2
-            col = i % 2
-            if rows > 1:
-                axes[row][col].set_visible(False)
-            else:
-                axes[col].set_visible(False)
-        
-        plt.suptitle(f'{self.index_config.display_name} Factor Beta Evolution', fontsize=16)
+        # Plot
+        import matplotlib.pyplot as plt
+        plt.figure(figsize=figsize)
+        for group_name, values in group_averages.items():
+            plt.plot(data['Date'], values, label=group_name, linewidth=2)
+        plt.title(f'{self.index_config.display_name} Factor Group Evolution')
+        plt.xlabel('Date')
+        plt.ylabel('Average Beta Value')
+        plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+        plt.grid(True, alpha=0.3)
         plt.tight_layout()
         plt.show()
     
@@ -411,7 +346,6 @@ def main():
         )
     else:
         visualizer.plot_factor_evolution(
-            factors=args.factors,
             start_date=args.start_date,
             end_date=args.end_date,
             interactive=not args.no_interactive
