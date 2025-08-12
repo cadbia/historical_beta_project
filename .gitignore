@@ -1,17 +1,23 @@
-# Ignore all files in the raw_data directory but keep folders and subfolders
+
+# Ignore all files in the raw_data directory but keep folders, subfolders, and .gitkeep files
 raw_data/**
 !raw_data/
 !raw_data/**/
+!raw_data/**/.gitkeep
 
-# Ignore all files in the data_warehouse directory but keep folders and subfolders
+
+# Ignore all files in the data_warehouse directory but keep folders, subfolders, and .gitkeep files
 data_warehouse/**
 !data_warehouse/
 !data_warehouse/**/
+!data_warehouse/**/.gitkeep
 
-# Ignore all files in the data_marts directory but keep folders and subfolders
+
+# Ignore all files in the data_marts directory but keep folders, subfolders, and .gitkeep files
 data_marts/**
 !data_marts/
 !data_marts/**/
+!data_marts/**/.gitkeep
 
 # Ignore all files in venv
 venv/*
