@@ -1,11 +1,17 @@
-# Ignore all files in the raw_data directory
-raw_data/*
+# Ignore all files in the raw_data directory but keep folders and subfolders
+raw_data/**
+!raw_data/
+!raw_data/**/
 
-# Ignore all files in the data_warehouse directory
-data_warehouse/*
+# Ignore all files in the data_warehouse directory but keep folders and subfolders
+data_warehouse/**
+!data_warehouse/
+!data_warehouse/**/
 
-# Ignore all files in the data_marts directory
-data_marts/*
+# Ignore all files in the data_marts directory but keep folders and subfolders
+data_marts/**
+!data_marts/
+!data_marts/**/
 
 # Ignore all files in venv
 venv/*

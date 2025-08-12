@@ -1,13 +1,11 @@
 # Historical Beta Analysis Project
 
-A comprehensive, generalized workflow for analyzing historical factor betas across different market indices. This project provides tools for data validation, transformation, consolidation, weighted average calculation, and visualization of factor betas for any market index.
+A comprehensive, generalized workflow for analyzing historical factor betas across different market indices.
 
 ## Features
 
-- **Multi-Index Support**: Easily switch between different indices (S&P 500, NASDAQ, Dow Jones, Russell 2000, or custom indices)
-- **Data Pipeline**: Complete workflow from raw data validation to final visualization
+- **Multi-Index Support**: Easily switch between different indices
 - **Robust Processing**: Handles missing data, outliers, and various data formats
-- **Interactive Visualization**: Plotly-based interactive charts for factor evolution analysis
 - **Flexible Configuration**: JSON-based configuration system for easy customization
 - **Command Line Interface**: Simple CLI for running individual steps or complete workflows
 
@@ -15,26 +13,26 @@ A comprehensive, generalized workflow for analyzing historical factor betas acro
 
 ```
 historical_beta_project/
-├── config.json                 # Configuration file for different indices
-├── README.md
-├── .gitignore
-├── data_marts/                 # Final processed data for analysis
-├── data_warehouse/             # Consolidated intermediate data
-├── raw_data/                   # Raw input data
-│   ├── Master_Factor_Betas_Raw/
-│   ├── master_factor_betas_transformed/
-│   └── [INDEX]_holdings/       # Holdings files for each index
+├── config.json # Index and file path configuration
+├── README.md # Project documentation
+├── .gitignore # Git ignore rules
+├── data_marts/ Final processed data for analysis
+│   └── SP500_weekly_factor_betas.csv # S&P output sector,weight,beta
+├── data_warehouse/ # Intermediate data
+│   ├── consolidated_factor_betas.parquet # All factor betas combined
+│   ├── SP500_holdings_consolidated.parquet # All SP500 holdings combined
+│   └── SP500_symbols_sectors.csv # Manually created sector classification for SP500
+├── raw_data/ # Raw input data
+│   ├── master_factor_betas_transformed/ # All transformed (bet -1.5 and +1.5) beta files
+│   ├── master_sector_files/ # All sector files
+│   └── SP500_holdings/ # Raw SP500 holdings files
 ├── src/
-│   ├── config.py              # Configuration management
-│   ├── generalized_beta_visualizer.py  # Visualization tools
-│   └── beta_visualizer.py     # Legacy S&P 500 visualizer
+│   └── run_full_update_workflow.py # Main workflow runner (automates all steps except sector classification)
 └── util/
-    ├── run_workflow.py         # Complete workflow runner
-    ├── consolidate_holdings.py # Holdings consolidation
-    ├── calculate_weighted_betas.py  # Weighted beta calculation
-    ├── consolidate_betas.py    # Factor beta consolidation
-    ├── validate_beta_ranges.py # Data validation
-    └── batch_transform_raw_betas.py  # Data transformation
+    ├── calculate_sector_weekly_avg_betas.py # Aggregates sector-level weekly betas
+    ├── consolidate_betas.py # Consolidates factor beta files
+    ├── consolidate_holdings.py # Consolidates holdings files for an index
+    └── consolidate_master_sector.py # Analyzes sector files, finds conflicts, and produces sector classification outputs
 ```
 
 ## Quick Start
@@ -50,10 +48,10 @@ pip install pandas numpy matplotlib seaborn plotly pathlib
 
 For any index, create a folder structure like:
 ```
-raw_data/
-├── Master_Factor_Betas_Raw/          # Common factor betas (all indices use this)
-├── master_factor_betas_transformed/   # Transformed factor betas (generated)
-└── [INDEX_NAME]_holdings/            # Holdings files for your index
+raw_data/ # From google drive
+├── master_factor_betas_tranformed/ # All factor betas
+├── master_sector_files/ # All master sector files
+└── [INDEX_NAME]_holdings/            # Holdings files for specific index
     ├── [INDEX_NAME]_Holdings_MM_DD_YYYY.csv
     └── ...
 ```
@@ -63,41 +61,33 @@ Holdings files should contain columns for `Symbol` and `Weight` (percentage or d
 ### 3. Run Complete Workflow
 
 ```bash
-# For S&P 500 (default)
-python util/run_workflow.py SP500
 
-# For NASDAQ
-python util/run_workflow.py NASDAQ
+python util/run_workflow.py
 
-# For any other configured index
-python util/run_workflow.py [INDEX_NAME]
-```
-
-### 4. Visualize Results
-
-```bash
-# Show summary statistics
-python src/generalized_beta_visualizer.py SP500 --summary
-
-# Plot factor evolution
-python src/generalized_beta_visualizer.py SP500
-
-# Analyze specific ticker vs index
-python src/generalized_beta_visualizer.py SP500 --ticker AAPL
-
-# Export to CSV
-python src/generalized_beta_visualizer.py SP500 --export
 ```
 
 ## Configuration
 
 ### Built-in Indices
 
-The following indices are pre-configured:
-- **SP500**: S&P 500
+The following indices are pre-configured:  
+- **SP500**: S&P 500  
 - **NASDAQ**: NASDAQ Composite  
-- **DOW**: Dow Jones Industrial Average
-- **RUSSELL2000**: Russell 2000
+- **DOW**: Dow Jones Industrial Average  
+- **RUSSELL2000**: Russell 2000  
+- **SP500G**: S&P 500 Growth  
+- **SP500ESG**: S&P 500 ESG  
+- **SP500V**: S&P 500 Value  
+- **SP1500**: S&P 1500  
+- **SP600**: S&P 600  
+- **SP400**: S&P 400  
+- **RUSSELL1000**: Russell 1000  
+- **RUSSELL3000**: Russell 3000  
+- **EAFE**: EAFE  
+- **EEM**: EEM  
+- **ACWI**: ACWI  
+- **QQQ**: NASDAQ 100  
+
 
 ### Adding Custom Indices
 
@@ -124,16 +114,6 @@ The following indices are pre-configured:
 
 ## Individual Script Usage
 
-### Data Validation
-```bash
-python util/validate_beta_ranges.py
-```
-
-### Data Transformation
-```bash
-python util/batch_transform_raw_betas.py
-```
-
 ### Consolidation
 ```bash
 # Consolidate factor betas (common for all indices)
@@ -148,36 +128,30 @@ python util/consolidate_holdings.py SP500
 python util/calculate_weighted_betas.py SP500
 ```
 
-### Visualization
-```bash
-# Basic factor evolution plot
-python src/generalized_beta_visualizer.py SP500
-
-# Specific factors
-python src/generalized_beta_visualizer.py SP500 --factors 1 2 3
-
-# Date range filtering
-python src/generalized_beta_visualizer.py SP500 --start-date 2022-01-01 --end-date 2023-01-01
-
-# Individual stock analysis
-python src/generalized_beta_visualizer.py SP500 --ticker AAPL
-
-# Export results
-python src/generalized_beta_visualizer.py SP500 --export
-```
-
 ## Data Requirements
 
+
 ### Factor Beta Files
-- Location: `raw_data/Master_Factor_Betas_Raw/`
-- Format: CSV with columns `Date`, `Symbol`, and numeric factor columns
+- Location: `raw_data/master_factor_betas_transformed/`
+- Format: CSV, columns: `Symbol`, `Company Name`, factor columns `1`-`88`
 - Naming: `master_factor_betas_MM_DD_YYYY.csv`
 
+### Sector Files
+- Location: `raw_data/master_sector_files/`
+- Format: CSV, columns: `Symbol`, `Company Name`, `Sector`
+- Naming: `master_sector_MM_DD_YYYY.csv`
+
 ### Holdings Files
-- Location: `raw_data/[INDEX_NAME]_holdings/`
-- Format: CSV with columns for symbol and weight
-- Naming: `[INDEX_NAME]_Holdings_MM_DD_YYYY.csv`
-- Weight: Can be percentage (0-100) or decimal (0-1)
+- Location: `raw_data/[INDEX]_holdings/`
+- Format: CSV, columns: `Symbol`, `Weight`
+- Naming: `[INDEX]_Holdings_MM_DD_YYYY.csv`
+- Weight: decimal (0-1)
+
+### Output Sector Classification Files
+- Location: `data_warehouse/`
+- Format: CSV, columns: `Symbol`, `Company Name`, `Sector`
+- Naming: `[INDEX]_symbols_sectors.csv` (final, after resolving conflicts manually)
+- Note: `[INDEX]_symbols_sectors_conflicts.csv` (tickers with sector conflicts), `[INDEX]_symbols_sectors_no_conflicts.csv` (tickers with no sector conflicts)
 
 ## Output Files
 
@@ -191,11 +165,21 @@ python src/generalized_beta_visualizer.py SP500 --export
 
 ## Development
 
-### Configuration Management
-The `src/config.py` module provides centralized configuration management:
-- `get_config()`: Get global configuration instance
-- `set_index(index_name)`: Set current working index
-- `get_paths(index_name)`: Get all file paths for an index
+## Adding a New Week of Betas and Holdings
+
+To add a new week of data before running the workflow:
+
+1. **Add New Factor Beta File**
+   - Place the new weekly beta file in `raw_data/master_factor_betas_transformed/`.
+   - Name it using the format: `master_factor_betas_MM_DD_YYYY.csv` (e.g., `master_factor_betas_08_12_2025.csv`).
+   - Ensure columns include `Date`, `Symbol`, and all required factor columns.
+
+2. **Add New Holdings File**
+   - Place the new weekly holdings file in `raw_data/[INDEX]_holdings/` (replace `[INDEX]` with your index, e.g., `SP500`).
+   - Name it using the format: `[INDEX]_Holdings_MM_DD_YYYY.csv` (e.g., `SP500_Holdings_08_12_2025.csv`).
+   - Ensure columns include `Symbol` and `Weight` (as decimal or percentage).
+
+After adding the files, run the workflow as usual. The new week will be automatically detected and processed.
 
 ### Adding New Indices
 1. Add configuration to `config.json`
@@ -210,18 +194,6 @@ The `src/config.py` module provides centralized configuration management:
 2. **Date parsing errors**: Check that filenames follow the expected format
 3. **Weight format issues**: Ensure weight columns contain numeric values
 4. **Factor column problems**: Verify factor betas have numeric column names
-
-### Validation Commands
-```bash
-# Check available indices
-python util/run_workflow.py --list-indices
-
-# Validate requirements
-python util/run_workflow.py SP500 --validate-only
-
-# Check data availability
-python util/calculate_weighted_betas.py SP500 --validate
-```
 
 ## License
 

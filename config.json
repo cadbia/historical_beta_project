@@ -1,49 +1,130 @@
-git{
+{
   "indices": {
-    "MAG7": {
-      "name": "MAG7",
-      "display_name": "Magnificent 7",
-      "holdings_folder": "mag7_holdings",
-      "holdings_file_pattern": "MAG7_Holdings_*.csv",
-      "holdings_consolidated_file": "MAG7_holdings_consolidated.parquet",
-      "weighted_betas_file": "MAG7_weekly_factor_betas.parquet",
-      "csv_export_file": "MAG7_weekly_factor_betas.csv"
+    "SP500": {
+      "name": "SP500",
+      "display_name": "S&P 500",
+      "holdings_folder": "raw_data/SP500_holdings",
+      "holdings_file_pattern": "SP500_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/SP500_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/SP500_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/SP500_symbols_sectors.csv"
     },
-    "NASDAQ": {
-      "name": "NASDAQ",
-      "display_name": "NASDAQ Composite",
-      "holdings_folder": "NASDAQ_holdings",
-      "holdings_file_pattern": "NASDAQ_Holdings_*.csv",
-      "holdings_consolidated_file": "NASDAQ_holdings_consolidated.parquet",
-      "weighted_betas_file": "NASDAQ_weekly_factor_betas.parquet",
-      "csv_export_file": "NASDAQ_weekly_factor_betas.csv"
+    "SP500G": {
+      "name": "SP500G",
+      "display_name": "S&P 500 Growth",
+      "holdings_folder": "raw_data/SP500G_holdings",
+      "holdings_file_pattern": "SP500G_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/SP500G_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/SP500G_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/SP500G_symbols_sectors.csv"
     },
-    "DOW": {
-      "name": "DOW",
-      "display_name": "Dow Jones Industrial Average",
-      "holdings_folder": "DOW_holdings",
-      "holdings_file_pattern": "DOW_Holdings_*.csv",
-      "holdings_consolidated_file": "DOW_holdings_consolidated.parquet",
-      "weighted_betas_file": "DOW_weekly_factor_betas.parquet",
-      "csv_export_file": "DOW_weekly_factor_betas.csv"
+    "SP500ESG": {
+      "name": "SP500ESG",
+      "display_name": "S&P 500 ESG",
+      "holdings_folder": "raw_data/SP500ESG_holdings",
+      "holdings_file_pattern": "SP500ESG_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/SP500ESG_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/SP500ESG_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/SP500ESG_symbols_sectors.csv"
+    },
+    "SP500V": {
+      "name": "SP500V",
+      "display_name": "S&P 500 Value",
+      "holdings_folder": "raw_data/SP500V_holdings",
+      "holdings_file_pattern": "SP500V_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/SP500V_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/SP500V_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/SP500V_symbols_sectors.csv"
+    },
+    "SP1500": {
+      "name": "SP1500",
+      "display_name": "S&P 1500",
+      "holdings_folder": "raw_data/SP1500_holdings",
+      "holdings_file_pattern": "SP1500_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/SP1500_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/SP1500_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/SP1500_symbols_sectors.csv"
+    },
+    "SP600": {
+      "name": "SP600",
+      "display_name": "S&P 600",
+      "holdings_folder": "raw_data/SP600_holdings",
+      "holdings_file_pattern": "SP600_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/SP600_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/SP600_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/SP600_symbols_sectors.csv"
+    },
+    "SP400": {
+      "name": "SP400",
+      "display_name": "S&P 400",
+      "holdings_folder": "raw_data/SP400_holdings",
+      "holdings_file_pattern": "SP400_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/SP400_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/SP400_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/SP400_symbols_sectors.csv"
     },
     "RUSSELL2000": {
       "name": "RUSSELL2000",
       "display_name": "Russell 2000",
-      "holdings_folder": "RUSSELL2000_holdings",
+      "holdings_folder": "raw_data/RUSSELL2000_holdings",
       "holdings_file_pattern": "RUSSELL2000_Holdings_*.csv",
-      "holdings_consolidated_file": "RUSSELL2000_holdings_consolidated.parquet",
-      "weighted_betas_file": "RUSSELL2000_weekly_factor_betas.parquet",
-      "csv_export_file": "RUSSELL2000_weekly_factor_betas.csv"
+      "holdings_consolidated_file": "data_warehouse/RUSSELL2000_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/RUSSELL2000_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/RUSSELL2000_symbols_sectors.csv"
     },
-    "MAG7": {
-      "name": "MAG7",
-      "display_name": "Magnificent 7",
-      "holdings_folder": "mag7_holdings",
-      "holdings_file_pattern": "mag7_holdings_*.csv",
-      "holdings_consolidated_file": "MAG7_holdings_consolidated.parquet",
-      "weighted_betas_file": "MAG7_weekly_factor_betas.parquet",
-      "csv_export_file": "MAG7_weekly_factor_betas.csv"
+    "RUSSELL1000": {
+      "name": "RUSSELL1000",
+      "display_name": "Russell 1000",
+      "holdings_folder": "raw_data/RUSSELL1000_holdings",
+      "holdings_file_pattern": "RUSSELL1000_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/RUSSELL1000_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/RUSSELL1000_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/RUSSELL1000_symbols_sectors.csv"
+    },
+    "RUSSELL3000": {
+      "name": "RUSSELL3000",
+      "display_name": "Russell 3000",
+      "holdings_folder": "raw_data/RUSSELL3000_holdings",
+      "holdings_file_pattern": "RUSSELL3000_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/RUSSELL3000_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/RUSSELL3000_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/RUSSELL3000_symbols_sectors.csv"
+    },
+    "EAFE": {
+      "name": "EAFE",
+      "display_name": "EAFE",
+      "holdings_folder": "raw_data/EAFE_holdings",
+      "holdings_file_pattern": "EAFE_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/EAFE_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/EAFE_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/EAFE_symbols_sectors.csv"
+    },
+    "EEM": {
+      "name": "EEM",
+      "display_name": "EEM",
+      "holdings_folder": "raw_data/EEM_holdings",
+      "holdings_file_pattern": "EEM_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/EEM_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/EEM_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/EEM_symbols_sectors.csv"
+    },
+    "ACWI": {
+      "name": "ACWI",
+      "display_name": "ACWI",
+      "holdings_folder": "raw_data/ACWI_holdings",
+      "holdings_file_pattern": "ACWI_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/ACWI_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/ACWI_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/ACWI_symbols_sectors.csv"
+    },
+    "QQQ": {
+      "name": "QQQ",
+      "display_name": "NASDAQ 100",
+      "holdings_folder": "raw_data/QQQ_holdings",
+      "holdings_file_pattern": "QQQ_Holdings_*.csv",
+      "holdings_consolidated_file": "data_warehouse/QQQ_holdings_consolidated.parquet",
+      "csv_export_file": "data_marts/QQQ_weekly_factor_betas.csv",
+      "symbol_sector_file": "data_warehouse/QQQ_symbols_sectors.csv"
     }
   }
 }
